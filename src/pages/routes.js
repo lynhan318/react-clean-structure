@@ -1,43 +1,39 @@
 import { lazy } from "react";
 import store from "#redux";
 
+const initModule = async (path, module) => {
+  const [reducer, saga] = await Promise.all([
+    import(`./${path}/reducer`),
+    import(`./${path}/saga`),
+  ]);
+  store.injectReducer(module, reducer.default);
+  store.injectSaga(module, saga.default);
+  return "ok";
+};
+
 export default [
-  {
-    path: "/",
-    exact: true,
-    component: lazy(async () => {
-      const [reducer, saga] = await Promise.all([
-        import("./Home/reducer"),
-        import("./Home/saga"),
-      ]);
-      store.injectReducer("home", reducer.default);
-      store.injectSaga("home", saga.default);
-      return import("./Home");
-    }),
-  },
   {
     path: "/feed",
     exact: false,
     component: lazy(async () => {
-      const [reducer, saga] = await Promise.all([
-        import("./Feed/reducer"),
-        import("./Feed/saga"),
-      ]);
-      store.injectReducer("feed", reducer.default);
-      store.injectSaga("feed", saga.default);
+      await initModule("Feed", "feed");
+      await initModule("Profile", "profile");
       return import("./Feed");
+    }),
+  },
+  {
+    path: "/",
+    exact: true,
+    component: lazy(async () => {
+      await initModule("Home", "home");
+      return import("./Home");
     }),
   },
   {
     path: "/profile",
     exact: true,
     component: lazy(async () => {
-      const [reducer, saga] = await Promise.all([
-        import("./Profile/reducer"),
-        import("./Profile/saga"),
-      ]);
-      store.injectReducer("profile", reducer.default);
-      store.injectSaga("profile", saga.default);
+      await initModule("Profile", "profile");
       return import("./Profile");
     }),
   },
