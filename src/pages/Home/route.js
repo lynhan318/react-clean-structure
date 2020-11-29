@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { initModule } from "#helpers";
+import { initModule } from "Helpers";
 
 export default {
   path: "/",

@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-const Home = (props) => {
+import MainEditor from "./components/Editor";
+
+const Home = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -20,6 +22,7 @@ const Home = (props) => {
       <Link to="/feed">feed</Link>
       <Link to="/profile">profile</Link>
       this is home page
+      <MainEditor />
     </div>
   );
 };

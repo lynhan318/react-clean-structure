@@ -1,9 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import routes from "./pages/routes";
-
-console.log("routes", routes);
+import routes from "Pages/routes";
 
 function App() {
   return (
